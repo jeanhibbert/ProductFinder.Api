@@ -5,9 +5,9 @@ using Microsoft.Extensions.Hosting;
 namespace ProductFinder.Tests.Integration;
 internal class TestApplicationFactory : WebApplicationFactory<Program>
 {
-    private readonly Action<IServiceCollection>? _serviceOverride;
+    private readonly Action<IServiceCollection> _serviceOverride;
 
-    public TestApplicationFactory(Action<IServiceCollection>? serviceOverride = null)
+    public TestApplicationFactory(Action<IServiceCollection> serviceOverride = null)
     {
         _serviceOverride = serviceOverride;
     }

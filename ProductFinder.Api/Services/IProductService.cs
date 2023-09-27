@@ -9,9 +9,9 @@ public interface IProductService
 
     List<Product> GetAll();
 
-    void Create(Product? product);
+    void Create(Product product);
 
-    Product? GetById(Guid id);
+    Product GetById(Guid id);
 
     void Update(Product product);
 

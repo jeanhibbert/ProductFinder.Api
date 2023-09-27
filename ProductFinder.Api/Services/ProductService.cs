@@ -7,7 +7,7 @@ public class ProductService : IProductService
 {
     private readonly Dictionary<Guid, Product> _products = new();
 
-    public void Create(Product? product)
+    public void Create(Product product)
     {
         if (product is null)
         {
@@ -17,7 +17,7 @@ public class ProductService : IProductService
         _products[product.Id] = product;
     }
 
-    public Product? GetById(Guid id)
+    public Product GetById(Guid id)
     {
         return _products.GetValueOrDefault(id);
     }

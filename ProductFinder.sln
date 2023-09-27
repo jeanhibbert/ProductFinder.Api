@@ -3,13 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFinder.Api", "ProductFinder.Api\ProductFinder.Api.csproj", "{D5320368-C574-484C-A2AD-2F9A50D4C7CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductFinder.Api", "ProductFinder.Api\ProductFinder.Api.csproj", "{D5320368-C574-484C-A2AD-2F9A50D4C7CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFinder.Persistence", "ProductFinder.Persistence\ProductFinder.Persistence.csproj", "{7E9BF19B-0C58-4646-9B00-7ACF80533E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductFinder.Persistence", "ProductFinder.Persistence\ProductFinder.Persistence.csproj", "{7E9BF19B-0C58-4646-9B00-7ACF80533E23}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{23160776-E7BA-4C41-9AB3-7252033B5086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFinder.Tests.Integration", "ProductFinder.Tests.Integration\ProductFinder.Tests.Integration.csproj", "{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductFinder.Tests.Integration", "ProductFinder.Tests.Integration\ProductFinder.Tests.Integration.csproj", "{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{F730DBBD-322B-4EB3-B099-A55FD382F5F0}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFinder.Contracts", "ProductFinder.Contracts\ProductFinder.Contracts.csproj", "{467A8EE1-0919-4145-A18E-A5724EE67908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +36,10 @@ Global
 		{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467A8EE1-0919-4145-A18E-A5724EE67908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467A8EE1-0919-4145-A18E-A5724EE67908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467A8EE1-0919-4145-A18E-A5724EE67908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{467A8EE1-0919-4145-A18E-A5724EE67908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
