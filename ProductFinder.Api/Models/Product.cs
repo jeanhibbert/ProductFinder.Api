@@ -7,7 +7,7 @@ public enum ProductColor : int
     White = 0, Green = 1, Blue = 2
 }
 
-public class Product
+public record Product
 {
     [JsonPropertyName("id")]
     public Guid Id { get; init; } = Guid.NewGuid();

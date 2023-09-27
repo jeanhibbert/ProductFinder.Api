@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFinder.Contracts", "ProductFinder.Contracts\ProductFinder.Contracts.csproj", "{467A8EE1-0919-4145-A18E-A5724EE67908}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductFinder.Tests.Unit", "ProductFinder.Tests.Unit\ProductFinder.Tests.Unit.csproj", "{D80C8043-801A-46B8-924E-6465F0251B15}"
 EndProject
 Global
@@ -38,10 +36,6 @@ Global
 		{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AFDC9D8-1C1D-4B43-97AA-D89B633318FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{467A8EE1-0919-4145-A18E-A5724EE67908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{467A8EE1-0919-4145-A18E-A5724EE67908}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{467A8EE1-0919-4145-A18E-A5724EE67908}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{467A8EE1-0919-4145-A18E-A5724EE67908}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D80C8043-801A-46B8-924E-6465F0251B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D80C8043-801A-46B8-924E-6465F0251B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D80C8043-801A-46B8-924E-6465F0251B15}.Release|Any CPU.ActiveCfg = Release|Any CPU

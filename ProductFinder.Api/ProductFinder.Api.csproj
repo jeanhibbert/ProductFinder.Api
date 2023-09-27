@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProductFinder.Contracts\ProductFinder.Contracts.csproj" />
     <ProjectReference Include="..\ProductFinder.Persistence\ProductFinder.Persistence.csproj" />
   </ItemGroup>
 

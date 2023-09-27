@@ -1,6 +1,5 @@
-using AutoFixture;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using NSubstitute;
 using ProductFinder.Api.EndpointDefinitions;
 using ProductFinder.Api.Models;
@@ -23,7 +22,7 @@ public class ProductEndpointDefinitionTests
     }
 
     [Fact]
-    public void GetAllProducts_ReturnEmptyList_WhenNoProductsExist()
+    public void GetFilteredProducts_ReturnEmptyList_WhenNoProductsExist()
     {
         //Arrange
         _productService.GetAll().Returns(new List<Product>());
@@ -36,16 +35,58 @@ public class ProductEndpointDefinitionTests
     }
 
     [Fact]
-    public void GetAllProducts_ReturnsProduct_WhenProductExists()
+    public void GetFilteredProducts_ReturnsProduct_WhenProductExists()
     {
         //Arrange
-        var product = _fixture.Create<Product>();
-        _productService.GetAll().Returns(new List<Product> { product });
+        var products = new List<Product>
+        {
+            _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Green)
+                .Create(),
+            _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Blue)
+                .Create()
+        };
+        _productService.GetAll().Returns(products);
 
         //Act
         var result = _sut.GetFilteredProducts(_productService, Substitute.For<IHttpContextAccessor>());
 
         //Assert
-        result.Should().ContainSingle(x => x.Id == product.Id && x.ProductColor == product.ProductColor);
+        result.Should().NotBeEmpty();
+        result.Should().HaveCount(2);
+        result.Should().ContainSingle(x => x.ProductColor == ProductColor.Blue);
+        result.Should().ContainSingle(x => x.ProductColor == ProductColor.Green);
+    }
+
+    [Fact]
+    public void GetFilteredProducts_ReturnsProduct_WhenProductWithColorExists()
+    {
+        //Arrange
+        var products = new List<Product>
+        {
+            _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Blue)
+                .Create()
+        };
+        _productService.GetByColor(Arg.Is(ProductColor.Blue)).Returns(products);
+
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var queryParameters = new QueryCollection(new Dictionary<string, StringValues>
+        {
+            { "color", ProductColor.Blue.ToString() }
+        });
+        var httpContext = new DefaultHttpContext
+        {
+            Request = { Query = queryParameters }
+        };
+        httpContextAccessor.HttpContext.Returns(httpContext);
+
+        //Act
+        var result = _sut.GetFilteredProducts(_productService, httpContextAccessor);
+
+        //Assert
+        result.Should().HaveCount(1);
+        result.Should().ContainSingle(x => x.ProductColor == ProductColor.Blue);
     }
 }

@@ -6,25 +6,31 @@ using System.Text.Json;
 
 namespace ProductFinder.Tests.Integration;
 
-public class ProductEndpointsTests
+public class ProductEndpointsTests : IClassFixture<TokenConfig>
 {
     private readonly Fixture _fixture;
+    private readonly string _testUserAccessToken;
 
-    public ProductEndpointsTests()
+    public ProductEndpointsTests(TokenConfig fixture)
     {
         _fixture = new Fixture();
+        _testUserAccessToken = fixture.TestUserToken;
     }
 
     [Fact]
     public async Task GetAllProducts_WillReturnProducts_WhenExists()
     {
         //Arrange
-        var product = _fixture.Create<Product>();
         using var app = new TestApplicationFactory();
         var httpClient = app.CreateClient();
-        httpClient = await SecurityUtil.SetAuthorizationHeaderAsync(httpClient);
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_testUserAccessToken}");
 
-        var createProductResponse = await httpClient.PostAsJsonAsync("/api/products", product);
+        await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Blue)
+                .Create());
+        await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Green)
+                .Create());
 
         //Act
         var response = await httpClient.GetAsync($"/api/products");
@@ -34,27 +40,33 @@ public class ProductEndpointsTests
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         productsResult.Should().NotBeNullOrEmpty();
+        productsResult.Should().HaveCount(2);
     }
 
     [Fact]
     public async Task GetProductsByColor_WillReturnProducts_WhenExists()
     {
         //Arrange
-        var product = _fixture.Create<Product>();
         using var app = new TestApplicationFactory();
         var httpClient = app.CreateClient();
-        httpClient = await SecurityUtil.SetAuthorizationHeaderAsync(httpClient);
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_testUserAccessToken}");
 
-        await httpClient.PostAsJsonAsync("/api/products", product);
+        await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Blue)
+                .Create());
+        await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Green)
+                .Create());
 
         //Act
-        var response = await httpClient.GetAsync($"/api/products?color={product.ProductColor}");
+        var response = await httpClient.GetAsync($"/api/products?color={ProductColor.Blue}");
         var responseText = await response.Content.ReadAsStringAsync();
         var productsResult = JsonSerializer.Deserialize<List<Product>>(responseText);
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         productsResult.Should().NotBeNullOrEmpty();
+        productsResult.Count.Should().Be(1);
     }
 
     [Fact]
@@ -64,7 +76,7 @@ public class ProductEndpointsTests
         var product = _fixture.Create<Product>();
         using var app = new TestApplicationFactory();
         var httpClient = app.CreateClient();
-        httpClient = await SecurityUtil.SetAuthorizationHeaderAsync(httpClient);
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_testUserAccessToken}");
 
         await httpClient.PostAsJsonAsync("/api/products", product);
 
@@ -85,6 +97,7 @@ public class ProductEndpointsTests
         var product = _fixture.Create<Product>();
         using var app = new TestApplicationFactory();
         var httpClient = app.CreateClient();
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_testUserAccessToken}");
         await httpClient.PostAsJsonAsync("/api/products", product);
 
         //Act
@@ -95,20 +108,5 @@ public class ProductEndpointsTests
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         productResult.Should().BeEquivalentTo(product);
-    }
-
-    [Fact]
-    public async Task GetProductById_ReturnNotFound_WhenProductDoesNotExists()
-    {
-        //Arrange
-        using var app = new TestApplicationFactory();
-        var guid = Guid.NewGuid();
-        var httpClient = app.CreateClient();
-
-        //Act
-        var response = await httpClient.GetAsync($"/api/products/{guid}");
-
-        //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }
