@@ -1,0 +1,49 @@
+@SecureProductFinder.Api_HostAddress = http://localhost:5118
+
+GET {{SecureProductFinder.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@url=https://localhost:7122
+@user=admin
+@password=P@$$w0rd1
+@email=admin@notadomain.com
+
+POST {{url}}/register
+Content-Type: application/json
+
+{
+  "username": "{{user}}",
+  "password": "{{password}}",
+  "email": "{{email}}"
+}
+
+###
+
+POST {{url}}/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+
+@token=<your token here>
+GET {{url}}
+Authorization: Bearer {{token}}
+
+
+###
+
+@refreshToken=<your refresh token here>
+
+POST {{url}}/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
