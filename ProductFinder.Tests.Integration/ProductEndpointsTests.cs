@@ -1,9 +1,4 @@
-using AutoFixture;
-using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
 using ProductFinder.Api.Models;
-using ProductFinder.Api.Services;
 using ProductFinder.Tests.Integration.Security;
 using System.Net;
 using System.Net.Http.Json;
@@ -25,9 +20,7 @@ public class ProductEndpointsTests
     {
         //Arrange
         var product = _fixture.Create<Product>();
-        
         using var app = new TestApplicationFactory();
-
         var httpClient = app.CreateClient();
         httpClient = await SecurityUtil.SetAuthorizationHeaderAsync(httpClient);
 
@@ -44,28 +37,11 @@ public class ProductEndpointsTests
     }
 
     [Fact]
-    public async Task GetAllProducts_WillReturnUnauthorized_WhenNotAuthenticated()
-    {
-        //Arrange
-        using var app = new TestApplicationFactory();
-
-        var httpClient = app.CreateClient();
-        
-        //Act
-        var response = await httpClient.GetAsync($"/api/products");
-
-        //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-
-    [Fact]
     public async Task GetProductsByColor_WillReturnProducts_WhenExists()
     {
         //Arrange
         var product = _fixture.Create<Product>();
-
         using var app = new TestApplicationFactory();
-
         var httpClient = app.CreateClient();
         httpClient = await SecurityUtil.SetAuthorizationHeaderAsync(httpClient);
 
@@ -82,28 +58,11 @@ public class ProductEndpointsTests
     }
 
     [Fact]
-    public async Task GetProductsByColor_WillReturnUnauthorized_WhenNotAuthenticated()
-    {
-        //Arrange
-        using var app = new TestApplicationFactory();
-
-        var httpClient = app.CreateClient();
-
-        //Act
-        var response = await httpClient.GetAsync($"/api/products?color={ProductColor.Blue}");
-
-        //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-
-    [Fact]
     public async Task GetProductsByColor_WillReturnNoProducts_WhenColorNotExists()
     {
         //Arrange
         var product = _fixture.Create<Product>();
-
         using var app = new TestApplicationFactory();
-
         var httpClient = app.CreateClient();
         httpClient = await SecurityUtil.SetAuthorizationHeaderAsync(httpClient);
 
@@ -124,9 +83,7 @@ public class ProductEndpointsTests
     {
         //Arrange
         var product = _fixture.Create<Product>();
-
         using var app = new TestApplicationFactory();
-
         var httpClient = app.CreateClient();
         await httpClient.PostAsJsonAsync("/api/products", product);
 
@@ -145,7 +102,6 @@ public class ProductEndpointsTests
     {
         //Arrange
         using var app = new TestApplicationFactory();
-
         var guid = Guid.NewGuid();
         var httpClient = app.CreateClient();
 

@@ -17,8 +17,9 @@ public class ProductEndpointDefinition : IEndpointDefinition
         app.MapDelete("/api/products/{id}", DeleteProductById);
     }
 
-    public List<Product> GetFilteredProducts(IProductService service, HttpContext context)
+    public List<Product> GetFilteredProducts(IProductService service, IHttpContextAccessor httpContextAccessor)
     {
+        var context = httpContextAccessor.HttpContext;
         if (context.Request.Query.Any())
         {
             if (Enum.TryParse(context.Request.Query["color"], ignoreCase: true, out ProductColor color))
