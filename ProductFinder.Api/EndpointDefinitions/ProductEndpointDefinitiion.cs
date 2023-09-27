@@ -17,7 +17,7 @@ public class ProductEndpointDefinition : IEndpointDefinition
         app.MapDelete("/api/products/{id}", DeleteProductById);
     }
 
-    internal List<Product> GetFilteredProducts(IProductService service, HttpContext context)
+    public List<Product> GetFilteredProducts(IProductService service, HttpContext context)
     {
         if (context.Request.Query.Any())
         {
