@@ -2,14 +2,29 @@
 using System.Net;
 
 namespace ProductFinder.Tests.Integration;
+
 public class HealthEndpointsTests
 {
+    [Fact]
+    public async Task CanPerformHealthCheckOnBase_WillReturnHealthy()
+    {
+        //Arrange
+        using var app = new TestApplicationFactory();
+        var httpClient = app.CreateClient();
+
+        //Act
+        var response = await httpClient.GetAsync($"/");
+
+        //Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+
     [Fact]
     public async Task CanPerformHealthCheck_WillReturnHealthy_WhenReady()
     {
         //Arrange
         using var app = new TestApplicationFactory();
-
         var httpClient = app.CreateClient();
 
         //Act
@@ -26,7 +41,6 @@ public class HealthEndpointsTests
     {
         //Arrange
         using var app = new TestApplicationFactory();
-
         var httpClient = app.CreateClient();
 
         //Act

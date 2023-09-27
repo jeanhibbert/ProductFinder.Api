@@ -54,18 +54,4 @@ public class SecurityProductEndpointsTests
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
-
-    [Fact]
-    public async Task GetProductById_WillReturnUnauthorized_WhenNotAuthenticated()
-    {
-        //Arrange
-        using var app = new TestApplicationFactory();
-        var httpClient = app.CreateClient();
-
-        //Act
-        var response = await httpClient.GetAsync($"/api/products/{Guid.NewGuid}");
-
-        //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
 }

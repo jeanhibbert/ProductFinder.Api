@@ -18,6 +18,7 @@ public static class DependencyExtensions
                         .AddEntityFrameworkStores<AppDbContext>()
                         .AddApiEndpoints();
     }
+
     public static void AddHealthCheckEndpoints(this WebApplication app)
     {
         app.UseHealthChecks("/health/live", new HealthCheckOptions

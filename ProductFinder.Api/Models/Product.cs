@@ -15,6 +15,6 @@ public record Product
     [JsonPropertyName("productName")]
     public string ProductName { get; init; } = default!;
 
-    [JsonPropertyName("color")]
+    [JsonPropertyName("productColor")]
     public ProductColor ProductColor { get; init; } = ProductColor.White;
 }

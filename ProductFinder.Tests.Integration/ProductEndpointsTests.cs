@@ -55,7 +55,13 @@ public class ProductEndpointsTests : IClassFixture<TokenConfig>
                 .With(p => p.ProductColor, ProductColor.Blue)
                 .Create());
         await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Blue)
+                .Create());
+        await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
                 .With(p => p.ProductColor, ProductColor.Green)
+                .Create());
+        await httpClient.PostAsJsonAsync("/api/products", _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.White)
                 .Create());
 
         //Act
@@ -66,7 +72,7 @@ public class ProductEndpointsTests : IClassFixture<TokenConfig>
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         productsResult.Should().NotBeNullOrEmpty();
-        productsResult.Count.Should().Be(1);
+        productsResult.Count.Should().Be(2);
     }
 
     [Fact]
@@ -88,25 +94,5 @@ public class ProductEndpointsTests : IClassFixture<TokenConfig>
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         productsResult.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task GetProductById_ReturnProduct_WhenProductExists()
-    {
-        //Arrange
-        var product = _fixture.Create<Product>();
-        using var app = new TestApplicationFactory();
-        var httpClient = app.CreateClient();
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_testUserAccessToken}");
-        await httpClient.PostAsJsonAsync("/api/products", product);
-
-        //Act
-        var response = await httpClient.GetAsync($"/api/products/{product.Id}");
-        var responseText = await response.Content.ReadAsStringAsync();
-        var productResult = JsonSerializer.Deserialize<Product>(responseText);
-
-        //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        productResult.Should().BeEquivalentTo(product);
     }
 }

@@ -10,11 +10,6 @@ public class ProductEndpointDefinition : IEndpointDefinition
     {
         app.MapGet("/api/products", GetFilteredProducts).RequireAuthorization();
         app.MapPost("/api/products", CreateProduct).RequireAuthorization();
-        app.MapGet("/api/products/{id}", GetProductById).RequireAuthorization();
-        
-        //Not required
-        //app.MapPut("/api/products/{id}", UpdateProduct);
-        //app.MapDelete("/api/products/{id}", DeleteProductById);
     }
 
     public IList<Product> GetFilteredProducts(IProductService service, IHttpContextAccessor httpContextAccessor)
@@ -41,24 +36,6 @@ public class ProductEndpointDefinition : IEndpointDefinition
     {
         service.Create(product);
         return Results.Created($"/api/products/{product.Id}", product);
-    }
-
-    internal IResult UpdateProduct(IProductService service, Guid id, Product updatedProduct)
-    {
-        var product = service.GetById(id);
-        if (product is null)
-        {
-            return Results.NotFound();
-        }
-
-        service.Update(updatedProduct);
-        return Results.Ok(updatedProduct);
-    }
-
-    internal IResult DeleteProductById(IProductService service, Guid id)
-    {
-        service.Delete(id);
-        return Results.Ok();
     }
 
     public void DefineServices(IServiceCollection services)
