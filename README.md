@@ -11,12 +11,14 @@ Environment -> Preview Features -> Check "Use Previews of the .NET SDK"
 - Get All Products endpoint (accessible securely) are tested in ProductEndpointsTests.cs
 - Get Products by Color endpoint (accessible securely) are tested in ProductEndpointsTests.cs
  
-## Potential improvements
-- Split out services & Dtos into domain library
+## Improvements outstanding
+- Split out services & Dtos into business layer library
 - Use Mediator for Queries (requests), Command & create necessary Handlers & Validators
 - Add tests for handlers & validators
 - Create response classes that return data from handlers with potential validation errors
 - Customize the Identity Core security setup to only expose required API's
+- Ensure swaggerUI is only available in development mode
+- Add specflow integration tests
 
 ## Other general information:
 The new Identity API's were [approved](https://github.com/dotnet/aspnetcore/issues/49424) on August the 21st

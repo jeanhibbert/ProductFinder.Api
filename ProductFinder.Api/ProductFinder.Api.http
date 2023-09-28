@@ -1,6 +1,3 @@
-###
-# For more info on HTTP files go to https://aka.ms/vs/httpfile
-
 @url=https://localhost:7122
 @user=admin
 @password=P@$$w0rd1
