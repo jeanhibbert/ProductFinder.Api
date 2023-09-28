@@ -44,6 +44,24 @@ public class ProductEndpointsTests : IClassFixture<TokenConfig>
     }
 
     [Fact]
+    public async Task GetAllProducts_WillReturnEmptyProducts_WhenNonExists()
+    {
+        //Arrange
+        using var app = new TestApplicationFactory();
+        var httpClient = app.CreateClient();
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_testUserAccessToken}");
+
+        //Act
+        var response = await httpClient.GetAsync($"/api/products");
+        var responseText = await response.Content.ReadAsStringAsync();
+        var productsResult = JsonSerializer.Deserialize<List<Product>>(responseText);
+
+        //Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        productsResult.Should().BeEmpty();
+    }
+
+    [Fact]
     public async Task GetProductsByColor_WillReturnProducts_WhenExists()
     {
         //Arrange
@@ -65,7 +83,7 @@ public class ProductEndpointsTests : IClassFixture<TokenConfig>
                 .Create());
 
         //Act
-        var response = await httpClient.GetAsync($"/api/products?color={ProductColor.Blue}");
+        var response = await httpClient.GetAsync($"/api/products/{ProductColor.Blue}");
         var responseText = await response.Content.ReadAsStringAsync();
         var productsResult = JsonSerializer.Deserialize<List<Product>>(responseText);
 
@@ -87,7 +105,7 @@ public class ProductEndpointsTests : IClassFixture<TokenConfig>
         await httpClient.PostAsJsonAsync("/api/products", product);
 
         //Act
-        var response = await httpClient.GetAsync($"/api/products?color=pink");
+        var response = await httpClient.GetAsync($"/api/products/pink");
         var responseText = await response.Content.ReadAsStringAsync();
         var productsResult = JsonSerializer.Deserialize<List<Product>>(responseText);
 

@@ -35,7 +35,7 @@ public class SecurityProductEndpointsTests
         var httpClient = app.CreateClient();
 
         //Act
-        var response = await httpClient.GetAsync($"/api/products?color={ProductColor.Blue}");
+        var response = await httpClient.GetAsync($"/api/products/{ProductColor.Blue}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

@@ -8,22 +8,32 @@ public class ProductEndpointDefinition : IEndpointDefinition
 {
     public void DefineEndpoints(WebApplication app)
     {
-        app.MapGet("/api/products", GetFilteredProducts).RequireAuthorization();
+        app.MapGet("/api/products", GetAll).RequireAuthorization();
+        app.MapGet("api/products/{colorInput}", GetProductsByColor)
+            .AddEndpointFilter(async (invocationContext, next) =>
+            {
+                var colorInput = invocationContext.GetArgument<string>(0);
+                if (!Enum.TryParse(colorInput, ignoreCase: true, out ProductColor color))
+                {
+                    return new List<Product>();
+                }
+                return await next(invocationContext);
+            }).RequireAuthorization(); 
         app.MapPost("/api/products", CreateProduct).RequireAuthorization();
     }
 
-    public IList<Product> GetFilteredProducts(IProductService service, IHttpContextAccessor httpContextAccessor)
+    public IList<Product> GetAll(IProductService service)
     {
-        var context = httpContextAccessor.HttpContext;
-        if (context.Request.Query.Any())
-        {
-            if (Enum.TryParse(context.Request.Query["color"], ignoreCase: true, out ProductColor color))
-            {
-                return service.GetByColor(color);
-            }
-            return new List<Product>();
-        }
         return service.GetAll();
+    }
+
+    public IList<Product> GetProductsByColor(string colorInput, IProductService service)
+    {
+        if (Enum.TryParse(colorInput, ignoreCase: true, out ProductColor color))
+        {
+            return service.GetByColor(color);
+        }
+        return new List<Product>();
     }
 
     internal IResult GetProductById(IProductService service, Guid id)

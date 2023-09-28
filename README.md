@@ -8,8 +8,9 @@ Environment -> Preview Features -> Check "Use Previews of the .NET SDK"
 
 ## Requirements
 - Health check endpoints (accessible annonymously) are tested in HealthEndpointsTests.cs
-- Get Product endpoints (accessible securely) are tested in ProductEndpointsTests.cs
-
+- Get All Products endpoint (accessible securely) are tested in ProductEndpointsTests.cs
+- Get Products by Color endpoint (accessible securely) are tested in ProductEndpointsTests.cs
+ 
 ## Potential improvements
 - Split out services & Dtos into domain library
 - Use Mediator for Queries (requests), Command & create necessary Handlers & Validators

@@ -1,8 +1,3 @@
-@SecureProductFinder.Api_HostAddress = http://localhost:5118
-
-GET {{SecureProductFinder.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 

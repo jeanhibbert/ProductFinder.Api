@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using NSubstitute;
 using ProductFinder.Api.EndpointDefinitions;
 using ProductFinder.Api.Models;
@@ -22,20 +20,20 @@ public class ProductEndpointDefinitionTests
     }
 
     [Fact]
-    public void GetFilteredProducts_ReturnEmptyList_WhenNoProductsExist()
+    public void GetAllProducts_ReturnEmptyList_WhenNoProductsExist()
     {
         //Arrange
         _productService.GetAll().Returns(new List<Product>());
 
         //Act
-        var result = _sut.GetFilteredProducts(_productService, Substitute.For<IHttpContextAccessor>());
+        var result = _sut.GetAll(_productService);
 
         //Assert
         result.Should().BeEmpty();
     }
 
     [Fact]
-    public void GetFilteredProducts_ReturnsProduct_WhenProductExists()
+    public void GetAllProducts_ReturnsProduct_WhenProductExists()
     {
         //Arrange
         var products = new List<Product>
@@ -50,7 +48,7 @@ public class ProductEndpointDefinitionTests
         _productService.GetAll().Returns(products);
 
         //Act
-        var result = _sut.GetFilteredProducts(_productService, Substitute.For<IHttpContextAccessor>());
+        var result = _sut.GetAll(_productService);
 
         //Assert
         result.Should().NotBeEmpty();
@@ -60,7 +58,7 @@ public class ProductEndpointDefinitionTests
     }
 
     [Fact]
-    public void GetFilteredProducts_ReturnsProduct_WhenProductWithColorExists()
+    public void GetProductsByColor_ReturnsProduct_WhenProductWithColorExists()
     {
         //Arrange
         var products = new List<Product>
@@ -71,22 +69,30 @@ public class ProductEndpointDefinitionTests
         };
         _productService.GetByColor(Arg.Is(ProductColor.Blue)).Returns(products);
 
-        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
-        var queryParameters = new QueryCollection(new Dictionary<string, StringValues>
-        {
-            { "color", ProductColor.Blue.ToString() }
-        });
-        var httpContext = new DefaultHttpContext
-        {
-            Request = { Query = queryParameters }
-        };
-        httpContextAccessor.HttpContext.Returns(httpContext);
-
         //Act
-        var result = _sut.GetFilteredProducts(_productService, httpContextAccessor);
+        var result = _sut.GetProductsByColor(ProductColor.Blue.ToString(), _productService);
 
         //Assert
         result.Should().HaveCount(1);
         result.Should().ContainSingle(x => x.ProductColor == ProductColor.Blue);
+    }
+
+    [Fact]
+    public void GetProductsByColor_ReturnsEmptyProducts_WhenProductColorNotExists()
+    {
+        //Arrange
+        var products = new List<Product>
+        {
+            _fixture.Build<Product>()
+                .With(p => p.ProductColor, ProductColor.Blue)
+                .Create()
+        };
+        _productService.GetByColor(Arg.Is(ProductColor.Blue)).Returns(products);
+
+        //Act
+        var result = _sut.GetProductsByColor("Yellow", _productService);
+
+        //Assert
+        result.Should().BeEmpty();
     }
 }
