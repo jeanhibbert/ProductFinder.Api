@@ -10,6 +10,13 @@ Environment -> Preview Features -> Check "Use Previews of the .NET SDK"
 - Health check endpoints (accessible annonymously) are tested in HealthEndpointsTests.cs
 - Get Product endpoints (accessible securely) are tested in ProductEndpointsTests.cs
 
+## Potential improvements
+- Split out services & Dtos into domain library
+- Use Mediator for Queries (requests), Command & create necessary Handlers & Validators
+- Add tests for handlers & validators
+- Create response classes that return data from handlers with potential validation errors
+- Customize the Identity Core security setup to only expose required API's
+
 ## Other general information:
 The new Identity API's were [approved](https://github.com/dotnet/aspnetcore/issues/49424) on August the 21st
 
