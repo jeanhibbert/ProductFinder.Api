@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http.Json;
 
-namespace ProductFinder.Tests.Integration;
+namespace ProductFinder.Tests.Integration.EndPoints;
 
 public class SecurityProductEndpointsTests
 {

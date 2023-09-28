@@ -1,5 +1,4 @@
 ﻿using ProductFinder.Api.Models;
-using System.Drawing;
 
 namespace ProductFinder.Api.Services;
 
@@ -12,8 +11,4 @@ public interface IProductService
     void Create(Product product);
 
     Product GetById(Guid id);
-
-    void Update(Product product);
-
-    void Delete(Guid id);
 }

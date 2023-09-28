@@ -4,7 +4,16 @@ namespace ProductFinder.Api.Services;
 
 public class ProductService : IProductService
 {
-    private Dictionary<Guid, Product> _products = new();
+    private readonly Dictionary<Guid, Product> _products = new();
+
+    public ProductService() { }
+
+    public ProductService(Dictionary<Guid, Product> products)
+    {
+        ArgumentNullException.ThrowIfNull(products, nameof(products));
+
+        _products = products;
+    }
 
     public List<Product> GetByColor(ProductColor color)
     {
@@ -16,22 +25,6 @@ public class ProductService : IProductService
     public List<Product> GetAll()
     {
         return _products.Values.ToList();
-    }
-
-    public void Update(Product product)
-    {
-        var existingProduct = GetById(product.Id);
-        if (existingProduct is null)
-        {
-            return;
-        }
-
-        _products[product.Id] = product;
-    }
-
-    public void Delete(Guid id)
-    {
-        _products.Remove(id);
     }
 
     public void Create(Product product)

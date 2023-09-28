@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Net;
 
-namespace ProductFinder.Tests.Integration;
+namespace ProductFinder.Tests.Integration.EndPoints;
 
 public class HealthEndpointsTests
 {

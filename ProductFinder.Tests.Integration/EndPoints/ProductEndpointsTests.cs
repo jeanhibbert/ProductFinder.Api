@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace ProductFinder.Tests.Integration;
+namespace ProductFinder.Tests.Integration.EndPoints;
 
 public class ProductEndpointsTests : IClassFixture<TokenConfig>
 {
