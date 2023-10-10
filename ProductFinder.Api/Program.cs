@@ -6,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
 builder.Services.AddIdentityDbEndpoints();
-//builder.Services.AddMediatR(typeof(Product));
 
 builder.Services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy());
